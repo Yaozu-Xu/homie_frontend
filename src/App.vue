@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <transition name="router-fade" mode="out-in">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+    </transition>
+    <transition name="router-fade" mode="out-in">
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </transition>
   </div>
 </template>
 
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+html{
+  scroll-behavior: smooth;
 }
 
-#nav {
-  padding: 30px;
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+a:link {
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+div{
+  margin: 0;
+  padding: 0;
 }
+
 </style>

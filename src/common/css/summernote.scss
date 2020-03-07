@@ -1,0 +1,44 @@
+.note-editor.note-frame {
+  border-color: #e8e4e4fa;
+}
+
+.note-popover {
+  display: none;
+}
+
+.panel-default .panel-heading {
+  background: #fbfbfb;
+  border-bottom: 1px solid #ddd;
+}
+
+.btn-default {
+  background: #fff;
+  border-color: #ccc;
+}
+
+.btn-default:hover {
+  color: #333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
+}
+
+.note-btn:after {
+  display: none;
+}
+
+.modal-title {
+  display: block;
+}
+
+.modal-footer {
+  display: none;
+}
+
+pre {
+  display: block;
+  padding: 28px 24px;
+  font-size: 14px;
+  background-color: #fafbfd;
+  border: 1px solid #eaecf0;
+  color: #68747f;
+}

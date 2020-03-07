@@ -1,0 +1,83 @@
+// Vue watch computed 属性绑定 监听事件时，只有赋值才会触发监听事件 
+// 用户 分类 文章 都是 一对多的关系
+// 用户
+db.user.insertOne({
+    user: "xyz",
+    _Id: ObjectID("xyz"),
+    email: "aaa@qq.com",
+    pwd: "12312312",
+    category: ["Node.js", "数据结构"],
+})
+
+//分类
+db.category.insertOne({
+    _Id: ObjectID("Node.js"),
+    categoryName: "Node.js",
+    userId: ObjectID("xyz"),
+    articleId: ["xxxxx", "xxxxxx"],
+})
+
+// 文章
+db.article.insertOne({
+    _Id: ObjectID("xxxx"),
+    articleName: "xxxx",
+    userId: ObjectID("xyz"),
+    categoryId: ObjectID("Node.js")
+    content: "asdjasdasdasda"
+})
+
+db.createCollection( "user", {
+   validator: { $jsonSchema: {
+      bsonType: "object",
+      required: ["user", "email", "pwd", "power"],
+      properties: {
+         user: {
+            bsonType: "string",
+            minLength: 3,
+            maxLength: 10,
+            description: "长度必须在3-10之间"
+         },
+         email: {
+            bsonType : "string",
+         },
+         pwd: {
+             bsonType: "string",
+         },
+         category:{
+             bsonType: "object",
+             maxItems: 8,
+             properties:{
+                 categoryName:{
+                     bsonType: "string"
+                 },
+                 categoryId:{
+                     bsonType: "objectId"
+                 }
+             }
+         },
+         power: {
+            bsonType: "int",
+            enum: [0, 1],
+            description: "权限不合法"
+         }
+      }
+   } }
+} )
+
+db.user.insert({
+    user: "xyz",
+    email: "dsdasdsdd",
+    pwd: "12312312sd",
+    power: NumberInt(0),
+})
+
+db.students.insert({
+   name: "Alice",
+   year: NumberInt(2019),
+   major: "History",
+   gpa: 3.0,
+})
+
+EADGBE 6-1
+CGDGAD 6-1
+
