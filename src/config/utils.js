@@ -33,10 +33,21 @@ export const parseTimeStamp = isoString => {
 	return res	
 }
 
-const localDate = (v) => {
+export const localDate = (v) => {
 	const d = new Date(v || Date.now());
 	d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
 	return d.toISOString();
+}
+
+export const parseToday = () => {
+	const map = {
+		"01": "January", "02": "February", "03": "March",
+		"04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December"
+	}
+	const todayList = localDate().slice(5, 10).split('-')
+	const month = map[todayList[0]]
+	const day = parseInt(todayList[1])
+	return `${month} ${day}`
 }
 
 const dateFormat = isoString => {

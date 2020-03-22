@@ -13,12 +13,14 @@ import 'summernote'
 import 'summernote/dist/lang/summernote-zh-CN'
 import 'summernote/dist/summernote.css'
 import 'font-awesome/css/font-awesome.min.css' 
+import vHotKey from 'v-hotkey'
 import zoomValidate from '@/common/plugins/zoomValidate/index'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(zoomValidate)
+Vue.use(vHotKey)
 
 new Vue({
   router,

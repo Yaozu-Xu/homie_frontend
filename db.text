@@ -37,6 +37,9 @@ db.createCollection( "user", {
             maxLength: 10,
             description: "长度必须在3-10之间"
          },
+         icon: {
+            bsonType: "string"
+         },
          email: {
             bsonType : "string",
          },

@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid style="padding: 0; margin: 0">
+  <b-container fluid class="m-0 p-0">
     <IndexHeader></IndexHeader>
     <div class="main">
       <img src="../assets/logo.png" />
@@ -41,9 +41,9 @@
         </b-col>
       </b-row>
     </div>
-    <div class="bottom">
+   <div class="bottom">
       <div class="txt">
-        <i class="fa fa-certificate" aria-hidden="true" style="color: rgba(156, 152, 152, 0.6)"></i>
+         <i class="fa fa-certificate" aria-hidden="true"></i>
         <a href="http://www.beian.miit.gov.cn" target="_blank">苏ICP备18057600号-2</a>
       </div>
     </div>
@@ -111,15 +111,15 @@
 }
 
 .bottom {
-  margin-top: 40px;
-  height: 80px;
-  border-top: 1px solid #dfdede;
-  background-color: #f3f2f2;
+  margin: 40px 0 40px 0;
   .txt {
     margin: 10px 0 0 70px;
+    i{
+      color: #4e6e8e;
+    }
     a {
       padding-left: 10px;
-      color: rgba(156, 152, 152, 0.6);
+      color: #4e6e8e;
     }
   }
 }

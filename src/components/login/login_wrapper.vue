@@ -1,7 +1,7 @@
 <template>
   <b-container class="login-container">
     <div class="logo-brand ml-auto">
-      <a href="#">
+      <a>
         <svg
           height="48"
           class="octicon octicon-mark-github"
@@ -18,7 +18,7 @@
       </a>
     </div>
     <div class="fm-header">
-      <h1>Sign in to HomiePub</h1>
+      <h1>Sign in to homiepub</h1>
     </div>
     <b-form class="fm-body">
       <b-form-group label="Email address" label-for="user">
@@ -44,7 +44,7 @@
         variant="primary"
         class="fm-bt"
         v-validTrigger="login"
-        @keyup.enter="login"
+        v-hotkey="{'enter': login}"
       >Login</b-button>
     </b-form>
     <div class="create-div">
@@ -119,11 +119,11 @@
 </style>
 
 <script>
-import Apis from "@/service/api"
-import { parseMsg } from "@/common/utils/index"
-import {mapGetters, mapMutations} from 'vuex'
-import "@/common/css/sweetalert.css"
-import "@/common/js/sweetalert.min.js"
+import Apis from "@/service/api";
+import { parseMsg } from "@/common/utils/index";
+import { mapGetters, mapMutations } from "vuex";
+import "@/common/css/sweetalert.css";
+import "@/common/js/sweetalert.min.js";
 
 export default {
   data() {
@@ -142,7 +142,7 @@ export default {
             required: "邮箱不能为空",
             max: "邮箱长度不得大于24"
           },
-          settings:{
+          settings: {
             domOp: false
           }
         },
@@ -157,57 +157,62 @@ export default {
             min: "密码长度不得小于9",
             max: "密码长度不得大于22"
           },
-          settings:{
+          settings: {
             domOp: false
           }
         }
-      },
+      }
     };
   },
 
   computed: {
-    ...mapGetters([
-      'USER_GETTER'
-    ]),
+    ...mapGetters(["USER_GETTER"])
   },
 
   methods: {
-    ...mapMutations([
-        'RECORD_USERINFO',
-    ]),
+    ...mapMutations(["RECORD_USERINFO"]),
 
     async login() {
       // input filter
       if (Object.keys(this.errMsg).length > 0) {
-          swal({
-            text: "账号或密码错误",
-            title: "错误",
-            type: "info",
-            confirmButtonText: "确认",
-            confirmButtonColor: "red"
-          })
-          return false
+        swal({
+          text: "账号或密码错误",
+          title: "错误",
+          type: "info",
+          confirmButtonText: "确认",
+          confirmButtonColor: "red"
+        });
+        return false;
       }
       try {
         const res = await Apis.sendLogin({
           email: this.email,
           password: this.password
-        })
-        this.RECORD_USERINFO(res)
-        this.$router.push({ name: 'index', params: { user: res.user.username}})
+        });
+        if (res.statusCode === 200) {
+          this.RECORD_USERINFO(res);
+          this.$router.push({
+            path: `/index/${res.user.username}`
+          }).catch(err => err);
+        } else {
+          swal({
+            text: res.message,
+            title: '错误',
+            type: "info",
+            confirmButtonText: "确认",
+            confirmButtonColor: "red"
+          });
+        }
       } catch (error) {
-        console.log(error)
-        const res = error.response.data
-        const msg = parseMsg(res.message)
         swal({
-          text: msg,
-          title: `${res.statusCode}错误`,
+          text: '服务器异常',
+          title: '错误',
           type: "info",
           confirmButtonText: "确认",
           confirmButtonColor: "red"
-        })
+        });
       }
     }
   }
-}
+};
 </script>

@@ -8,7 +8,8 @@
           v-for="(item, index) in headerList"
           :key="index"
           :to="item.url"
-        >{{item.name}}</b-nav-item>
+        >{{item.name}}
+        </b-nav-item>
       </b-navbar-nav>
     </div>
   </b-navbar>
@@ -22,6 +23,8 @@ export default {
     return {
       currentPage: "",
       username: '',
+      login: null,
+      selfPage: null,
       headerList: null,
     }
   },
@@ -32,6 +35,8 @@ export default {
 
   created(){
     this.username = this.$route.params.user || this.$store.state.username
+    this.login = this.$store.state.login
+    this.selfPage = this.$store.state.selfPage
   },
 
   watch: {
@@ -49,22 +54,23 @@ export default {
         // 游客访问
         this.headerList = [
           { url: `/index/xyz`, name: "作者主页" },
-          { url: "/about", name: "关于" },
+          { url: "/", name: "关于" },
           { url: "/login", name: "登陆" }
         ]
-      }else if (this.$store.state.selfPage) {
+      }else if (this.selfPage) {
         // 注册的用户 访问自己的页面
         this.headerList = [
           { url: `/index/${this.username}`, name: "主页" },
           { url: "/publish", name: "发布" },
-          { url: "/about", name: "关于" },
+          { url: "/admin", name: "空间"},
+          { url: "/", name: "关于" },
           { url: "/login", name: "登陆" }
         ]
       }else{
         // 注册的用户访问别人的页面
         this.headerList = [
           { url: `/index/${this.username}`, name: "主页" },
-          { url: "/about", name: "关于" },
+          { url: "/", name: "关于" },
           { url: "/login", name: "登陆" }
         ]
       } 

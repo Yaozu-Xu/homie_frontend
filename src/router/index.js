@@ -13,6 +13,7 @@ const publish = r => require.ensure([], ()=>r(require('@/views/Publish')), 'publ
 const about = r => require.ensure([], () => r(require('@/views/About')), 'about')
 const edit = r => require.ensure([], () => r(require('@/views/Editor')), 'edit')
 const admin = r => require.ensure([], () => r(require('@/views/Admin')), 'admin')
+const error = r => require.ensure([], () => r(require('@/views/Error')), 'error')
 
 
 Vue.use(VueRouter)
@@ -24,7 +25,8 @@ const routes = [{
     children: [
 		{
 			path: '',
-			redirect: '/about'
+			name: 'about',
+			component: about
 		},
 	    {
 	    	path: '/login',
@@ -54,15 +56,19 @@ const routes = [{
 			meta: { requireAuth: true }
 		},
 		{
-			path: '/about',
-			name: 'about',
-			component: about
-		},
-		{
 			path: '/admin',
 			name: 'admin',
 			component: admin,
-			// meta: { requireAuth: true }
+			meta: { requireAuth: true }
+		},
+		{
+			path: '/error',
+			name: 'error',
+			component: error
+		},
+		{
+			path: '*',
+			redirect: '/error'
 		}
     ]
 }
@@ -99,9 +105,15 @@ router.beforeEach(async (to, from, next) => {
 				store.state.id = user._id
 				store.state.power = user.power
 				store.state.login = true
+				if(user.icon){
+				   store.state.icon = user.icon
+				}
 				if(res.expire){
 					// token过期
 					setStore('access_token', res.access_token)
+				}
+				if (Cookies.get('uid') === res._id){
+					store.state.selfPage = true
 				}
 				next()
 			}
@@ -113,9 +125,19 @@ router.beforeEach(async (to, from, next) => {
 		if (to.params.hasOwnProperty('user')){
 			const user = to.params.user
 			const userInfo = await Apis.getUser(user)
+			// 用户不存在
+			if(!userInfo){
+				next({
+					path: '/',
+				})
+				return
+			}
 			store.state.username = userInfo.username
 			store.state.id = userInfo._id
 			store.state.power = userInfo.power
+			if(user.icon){
+				store.state.icon = userInfo.icon
+			 }
 			const cookieId = Cookies.get('uid')
 			if(cookieId){
 				store.state.login = true

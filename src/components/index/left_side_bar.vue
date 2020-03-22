@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+  <div class="col-md-3 col-xl-2 bd-sidebar">
     <form class="d-flex align-items-center ml-1 bd-search">
       <span class="algolia-autocomplete" style="width: 100%;">
         <input type="search" placeholder="Search...." class="form-control ds-input" />
@@ -29,7 +29,7 @@
           <!-- 分类导航 -->
           <b-nav-item class="ct-link">
             {{category.cName}}
-            <b>({{category.hasOwnProperty('publish') ? category.publish.length : 0}})</b>
+            <span>({{category.hasOwnProperty('publish') ? category.publish.length : 0}})</span>
             <span class="sr-only">(current)</span>
           </b-nav-item>
           <!-- 分类对应的文章子导航 -->
@@ -68,10 +68,6 @@
         .nav-link {
           color: rgba(0, 0, 0, 0.52);
         }
-        b {
-          padding-left: 1px;
-          color: #bec4c5;
-        }
       }
       .child-nav {
         display: none;
@@ -82,9 +78,6 @@
         .nav-link {
           color: #2f4040 !important;
           font-weight: 600;
-        }
-        b {
-          color: #2f4040 !important;
         }
       }
       .child-nav {

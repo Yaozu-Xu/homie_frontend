@@ -1,7 +1,7 @@
 <template>
   <b-container class="login-container">
     <div class="logo-brand ml-auto">
-      <a href="#">
+      <a>
         <svg
           height="48"
           class="octicon octicon-mark-github"
@@ -72,15 +72,20 @@
           class="invalid-feedback"
         ></div>
       </b-form-group>
-      <b-button type="button" variant="success" class="fm-bt" v-validTrigger="sendRegData">Join</b-button>
+      <b-button
+        type="button"
+        variant="success"
+        class="fm-bt"
+        v-validTrigger="sendRegData"
+      >Join</b-button>
     </b-form>
   </b-container>
 </template>
 
 <script>
 import Apis from "@/service/api";
-import "@/common/css/sweetalert.css"
-import "@/common/js/sweetalert.min.js"
+import "@/common/css/sweetalert.css";
+import "@/common/js/sweetalert.min.js";
 
 export default {
   data() {
@@ -141,33 +146,32 @@ export default {
           email: this.email,
           username: this.user,
           password: this.pwd
-        })
-        if(res.statusCode == 200){
+        });
+        if (res.statusCode == 200) {
           swal({
             text: res.message,
             title: "注册成功",
             type: "info",
             confirmButtonText: "确认",
             confirmButtonColor: "red"
-          })
-        }else{
+          });
+        } else {
           swal({
             text: res.message,
             title: "注册失败",
             type: "info",
             confirmButtonText: "确认",
             confirmButtonColor: "red"
-          })
+          });
         }
       } catch (error) {
-        const res = error.response.data
         swal({
-          text: res.message,
-          title: '服务器异常',
+          text: '服务器异常',
+          title: "错误",
           type: "info",
           confirmButtonText: "确认",
           confirmButtonColor: "red"
-        })
+        });
       }
     },
 

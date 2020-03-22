@@ -8,6 +8,7 @@ Vue.use(Vuex)
 const state = {
 	login: false,
 	selfPage: false,
+	icon: '',
 	id: null,
 	power: 0,
 	username: null,

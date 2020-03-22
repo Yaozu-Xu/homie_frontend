@@ -6,7 +6,9 @@ import "@/common/js/sweetalert.min.js"
 
 const Apis = {}
 
-const baseUrl = 'http://127.0.0.1:3000'
+const settingApi = {}
+
+const analysisApi = {}
 
 Apis.sendLogin = (params) =>
 	axios.post('/server/api/user/login', params)
@@ -17,7 +19,7 @@ Apis.getUser = (user) =>
 Apis.getOnesCategory = (uid) =>
 	axios.get(`/server/api/category/get/${uid}`)
 
-Apis.checkAuth = (uid) => 
+Apis.checkAuth = (uid) =>
 	axios.get(`/server/api/user/auth/${uid}`)
 
 Apis.register = (data) =>
@@ -45,12 +47,28 @@ Apis.delArticle = (aid) =>
 // upload img
 Apis.uploadImg = (data) =>
 	axios.post(`/server/api/publish/fileload`, data, {
-		headers: {"Content-Type": "multipart/form-data"}
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
 	})
 
+settingApi.reset = (data) =>
+	axios.put('/server/api/user/reset', data)
+
+settingApi.changeIcon = (data) =>
+	axios.post('/server/api/user/icon', data, {
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
+	})
+
+analysisApi.getWritingStamp = (uid) =>
+	axios.get(`/server/api/publish/analysis/${uid}`)
+
+
+export {
+	settingApi,
+	analysisApi
+}
+
 export default Apis
-
-
-
-
-

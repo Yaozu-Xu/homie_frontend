@@ -1,5 +1,5 @@
 <template>
-  <b-container id="article-area">
+  <div id="article-area">
     <div
       class="article-container col-md-11 col-xl-11"
       v-for="(article, index) in articleList"
@@ -29,13 +29,14 @@
       </b-row>
       <div class="article-content" v-html="article.content"></div>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 #article-area {
   padding-top: 40px;
   padding-left: 35px;
+  min-width: 70%;
   position: relative;
   .article-container {
     padding-bottom: 40px;
