@@ -10,6 +10,7 @@ export default {
 		state.username = user.username
 		state.power = user.power
 		state.id = user._id
+		state.createTime = user.createTime
 		state.login = true
 		if(user.icon){
 			state.icon = user.icon

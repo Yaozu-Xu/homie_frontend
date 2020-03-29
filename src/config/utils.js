@@ -50,11 +50,24 @@ export const parseToday = () => {
 	return `${month} ${day}`
 }
 
+export const debounce = (func, delay=1000) => {
+	let timer;
+	return function(){
+	  let args = arguments;
+	  if(timer){
+		clearTimeout(timer)
+	  }
+	  timer = setTimeout(function(){
+		func.apply(this, args)
+	  }, delay)
+	}
+}
+
 const dateFormat = isoString => {
 
 	const map = {
-		"01": "January", "02": "February", "03": "March",
-		"04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December"
+		"01": "Jan", "02": "Feb", "03": "March",
+		"04": "April", "05": "May", "06": "June", "07": "July", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"
 	}
 	const dateArr = isoString.split('-')
 	const year = dateArr[0]  // '2020;

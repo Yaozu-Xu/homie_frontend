@@ -9,6 +9,7 @@ const state = {
 	login: false,
 	selfPage: false,
 	icon: '',
+	createTime: '',
 	id: null,
 	power: 0,
 	username: null,

@@ -166,7 +166,7 @@ export default {
           title: "消息",
           type: "info",
           confirmButtonText: "确认",
-          confirmButtonColor: "red"
+          confirmButtonColor: "red",
         });
         setTimeout(window.location.reload(), 2000);
       } catch (error) {
@@ -181,7 +181,9 @@ export default {
           text: "确定要退出吗",
           type: "info",
           confirmButtonColor: "red",
-          confirmButtonText: "确定"
+          confirmButtonText: "确定",
+          showCancelButton: true,
+          cancelButtonText: "取消",
         },
         function(willConfirm) {
           if (willConfirm) {

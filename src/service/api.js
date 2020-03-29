@@ -65,6 +65,8 @@ settingApi.changeIcon = (data) =>
 analysisApi.getWritingStamp = (uid) =>
 	axios.get(`/server/api/publish/analysis/${uid}`)
 
+analysisApi.genCalendar = (uid) =>
+	axios.get(`/server/api/publish/calendar/${uid}`)
 
 export {
 	settingApi,

@@ -10,17 +10,21 @@
     </div>
     <div class="calendar-body">
       <b-row v-for="(row, index) in getMonthDays(current)" :key="index">
-        <b-col v-for="(day, index1) in row" :key="index1">{{day}}</b-col>
+        <b-col v-for="(day, index1) in row" :key="index1" :class="{posted: writingDaysOfMonth.has(day)}">{{day}}</b-col>
       </b-row>
       <span>{{today}}</span>
     </div>
     <div class="calendar-bottom">
-      <span>本月创作: 3天</span>
+      <span>本月创作: {{writingDaysOfMonth.size}}</span>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.posted{
+  color: red;
+}
+
 #calendar {
   background: #fff;
   border-radius: 4px;
@@ -47,7 +51,7 @@
         color: gainsboro;
         cursor: pointer;
       }
-      i:hover{
+      i:hover {
         color: indianred;
       }
     }
@@ -69,25 +73,25 @@
       color: grey;
     }
   }
-  .calendar-bottom{
+  .calendar-bottom {
     margin: 1rem 0 1rem 1.2rem;
-    span{
+    span {
       font-weight: 400;
     }
   }
 }
 
 // 手机
-@media screen and (max-width: 576px){
-  #calendar{
-    .calendar-header{
-      h2{
+@media screen and (max-width: 576px) {
+  #calendar {
+    .calendar-header {
+      h2 {
         padding: 0 1rem 0 1rem;
       }
     }
-    .calendar-body{
-      .row{
-        .col{
+    .calendar-body {
+      .row {
+        .col {
           padding-right: 0;
         }
       }
@@ -95,8 +99,8 @@
   }
 }
 
-@media screen and (max-width: 992px){
-  #calendar{
+@media screen and (max-width: 992px) {
+  #calendar {
     max-width: 78%;
   }
 }
@@ -104,11 +108,15 @@
 
 <script>
 import { parseTimeStamp, parseToday } from "@/config/utils";
+import { analysisApi } from "@/service/api";
 
 export default {
   data() {
     return {
-      createTime: "2019-07-28",
+      createTime: "",
+      writingDaysOfMonth: new Set(), // 当月写作天数
+      writingData: null, // 接口返回的写作数据
+      id: "",
       today: "",
       current: 0,
       calendaList: []
@@ -116,6 +124,7 @@ export default {
   },
 
   created() {
+    this.initData();
     this.calendaList = parseTimeStamp(this.createTime);
     this.current = this.calendaList.length - 1;
     this.today = parseToday();
@@ -145,13 +154,54 @@ export default {
     },
 
     monthAfter() {
-      if (this.current < this.calendaList.length - 1) this.current++;
+      if (this.current < this.calendaList.length - 1){
+        this.current++;
+        this.getWrtingDays()
+      } 
     },
 
     monthBefore() {
       if (this.current > 0) {
         this.current--;
+        this.getWrtingDays();
       }
+    },
+
+    getWrtingDays() {
+      const map = {
+        January: 1,
+        February: 2,
+        March: 3,
+        April: 4,
+        May: 5,
+        June: 6,
+        July: 7,
+        August: 8,
+        September: 9,
+        October: 10,
+        November: 11,
+        December: 12
+      };
+      const m = this.calendaList[this.current]['month'];
+      const a = m.split(" ");
+      const year = a[1];
+      const month = map[a[0]];
+      const key = `${year}-${month}`
+      if(this.writingData.hasOwnProperty(key)){
+        // 本月有写作
+        this.writingDaysOfMonth = new Set(this.writingData[key])
+      }else{
+        // 无写作为空列表
+        this.writingDaysOfMonth = new Set()
+      }
+    },
+
+    async initData() {
+      this.id = this.$store.state.id;
+      this.createTime = this.$store.state.createTime.slice(0, 10);
+      const res = await analysisApi.genCalendar(this.id);
+      this.writingData = res.calendar
+      this.getWrtingDays()
     }
   }
 };

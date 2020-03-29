@@ -104,6 +104,7 @@ router.beforeEach(async (to, from, next) => {
 				store.state.username = user.username
 				store.state.id = user._id
 				store.state.power = user.power
+				store.state.createTime = user.createTime
 				store.state.login = true
 				if(user.icon){
 				   store.state.icon = user.icon
@@ -135,6 +136,7 @@ router.beforeEach(async (to, from, next) => {
 			store.state.username = userInfo.username
 			store.state.id = userInfo._id
 			store.state.power = userInfo.power
+			store.state.createTime = userInfo.createTime
 			if(user.icon){
 				store.state.icon = userInfo.icon
 			 }

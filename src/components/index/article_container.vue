@@ -144,7 +144,9 @@ export default {
             text: "确定要删除该文章吗",
             type: "info", 
             confirmButtonColor: "red",
-            confirmButtonText: "确定"
+            confirmButtonText: "确定",
+            showCancelButton: true,
+           cancelButtonText: "取消"
           },
           async function(willConfirm) {
             if (willConfirm) {

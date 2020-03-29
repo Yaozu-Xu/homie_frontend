@@ -42,6 +42,7 @@ export default {
 
   created() {
     this.aid = this.$route.params.aid;
+    this.username = this.$store.state.username
   },
 
   methods: {
@@ -51,7 +52,7 @@ export default {
       let button = ui.button({
         contents: '<i class="fa fa-child" id="submit" /> 提交更新',
         tooltip: "提交",
-        click: this.sendUpdated,
+        click: this.sendUpdated
       });
       return button.render();
     },
@@ -74,34 +75,37 @@ export default {
           ["insert", ["picture", "link", "table", "hr"]],
           ["Misc", ["help", "fullscreen", "submit"]]
         ],
+        buttons: {
+          submit: this.createBtn
+        },
         callbacks: {
-        onImageUpload: async function(files) {
-          // create img node
-          const api = "/server/api/publish/file/";
-          const prefix = `img-${files[0]["lastModified"]}`;
-          const suffix = /image\/(.*)/.exec(files[0]["type"])[1];
-          const filename = `${prefix}.${suffix}`;
-          let imgNode = (prefix, suffix) => {
-            const imgNode = document.createElement("img");
-            imgNode.setAttribute("src", `${api}${filename}`);
-            return imgNode;
-          };
-          // upload to the server
-          let formData = new FormData();
-          formData.append("file", files[0], filename);
-          try {
-            const res = await Apis.uploadImg(formData);
-            if (res.statusCode === 200) {
-              $("#summernote").summernote(
-                "insertNode",
-                imgNode(prefix, suffix)
-              );
+          onImageUpload: async function(files) {
+            // create img node
+            const api = "/server/api/publish/file/";
+            const prefix = `img-${files[0]["lastModified"]}`;
+            const suffix = /image\/(.*)/.exec(files[0]["type"])[1];
+            const filename = `${prefix}.${suffix}`;
+            let imgNode = (prefix, suffix) => {
+              const imgNode = document.createElement("img");
+              imgNode.setAttribute("src", `${api}${filename}`);
+              return imgNode;
+            };
+            // upload to the server
+            let formData = new FormData();
+            formData.append("file", files[0], filename);
+            try {
+              const res = await Apis.uploadImg(formData);
+              if (res.statusCode === 200) {
+                $("#summernote").summernote(
+                  "insertNode",
+                  imgNode(prefix, suffix)
+                );
+              }
+            } catch (error) {
+              console.log(error);
             }
-          } catch (error) {
-            console.log(error);
           }
         }
-      }
       });
       // insert ori content
       $("#summernote").summernote("code", this.oriContent);
@@ -117,9 +121,9 @@ export default {
       const elems = dom.getElementsByTagName("*");
       const len = elems.length;
       for (let i = 0; i < len; i++) {
-        if(elems[i]){
-           const temp = elems[i].innerHTML.trim().replace(/&nbsp;/g, "");
-           elems[i].innerHTML = temp.replace(/<br>/g, "")
+        if (elems[i]) {
+          const temp = elems[i].innerHTML.trim().replace(/&nbsp;/g, "");
+          elems[i].innerHTML = temp.replace(/<br>/g, "");
         }
       }
       return dom.innerHTML;
@@ -128,7 +132,7 @@ export default {
     async sendUpdated() {
       const html = $("#summernote").summernote("code");
       const content = this.cleanDom(html);
-      const res = await Apis.putArticle({ aid: this.aid, content: content });
+      const res = await Apis.putArticle({ aid: this.aid, content: content, username: this.username });
       if (res.statusCode === 200) {
         swal({
           text: "发布成功",
@@ -138,7 +142,10 @@ export default {
           confirmButtonColor: "red"
         });
         setTimeout(() => {
-          this.$router.push({name: 'index', params: { user: this.$store.state.username}})
+          this.$router.push({
+            name: "index",
+            params: { user: this.$store.state.username }
+          });
         }, 2000);
       } else {
         swal({
