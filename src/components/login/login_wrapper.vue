@@ -9,7 +9,7 @@
       <h1>Sign in to homiepub</h1>
     </div>
     <b-form class="fm-body">
-      <b-form-group label="Email address" label-for="user">
+      <b-form-group label="Email" label-for="user">
         <b-form-input
           v-model="email"
           id="email"
@@ -31,12 +31,12 @@
         type="button"
         variant="primary"
         class="fm-bt"
-        v-validTrigger="login"
-        v-hotkey="{'enter': login}"
+        v-validTrigger="throttleLogin"
+        v-hotkey="{'enter': throttleLogin}"
       >Login</b-button>
     </b-form>
     <div class="create-div">
-      New to HomiePub?
+      New to homiepub?
       <a href="/join">Create an account</a>
     </div>
   </b-container>
@@ -108,10 +108,8 @@
 
 <script>
 import Apis from "@/service/api";
-import { parseMsg } from "@/common/utils/index";
 import { mapGetters, mapMutations } from "vuex";
-import "@/common/css/sweetalert.css";
-import "@/common/js/sweetalert.min.js";
+import {throttle} from "@/config/utils"
 
 export default {
   data() {
@@ -151,6 +149,10 @@ export default {
         }
       }
     };
+  },
+
+  created(){
+    this.throttleLogin = throttle(this.login)
   },
 
   computed: {

@@ -63,6 +63,18 @@ export const debounce = (func, delay=1000) => {
 	}
 }
 
+export const throttle = (func, delay=2000) => {
+	let timer;
+	return function(){
+		if(!timer){
+			timer = setTimeout(()=>{
+				timer = null,
+				func.apply()
+			}, delay)
+		}
+	}
+}
+
 const dateFormat = isoString => {
 
 	const map = {

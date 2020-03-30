@@ -1,6 +1,6 @@
 // encapsolute axios
 import axios from 'axios'
-import {getStore, setStore} from '@/config/utils'
+import {getStore} from '@/config/utils'
 import '@/common/css/sweetalert.css'  // 弹窗组件
 import '@/common/js/sweetalert.min.js'
 

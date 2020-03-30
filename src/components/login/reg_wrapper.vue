@@ -64,7 +64,8 @@
         type="button"
         variant="success"
         class="fm-bt"
-        v-validTrigger="sendRegData"
+        v-validTrigger="throttleRegister"
+        v-hotkey="{'enter': throttleRegister}"
       >Join</b-button>
     </b-form>
   </b-container>
@@ -72,8 +73,7 @@
 
 <script>
 import Apis from "@/service/api";
-import "@/common/css/sweetalert.css";
-import "@/common/js/sweetalert.min.js";
+import {throttle} from "@/config/utils"
 
 export default {
   data() {
@@ -122,7 +122,9 @@ export default {
     };
   },
 
-  computed: {},
+  created(){
+    this.throttleRegister = throttle(this.sendRegData)
+  },
 
   methods: {
     async sendRegData() {
