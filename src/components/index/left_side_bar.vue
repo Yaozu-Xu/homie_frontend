@@ -67,7 +67,7 @@
 .search-res {
   position: absolute;
   z-index: 2;
-  opacity: 95%;
+  opacity: 0.95;
   border-radius: 4px;
   width: 100%;
   box-shadow: 5px 5px 4px -4px rgba(43, 40, 214, 0.1);
@@ -230,7 +230,6 @@ export default {
     async search() {
       const res = await this.algolia.search(this.query)
       this.searchRes = res.hits
-      // console.log(this.searchRes)
     }
   }
 };

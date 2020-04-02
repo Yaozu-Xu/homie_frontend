@@ -12,7 +12,6 @@ module.exports = {
       .set("@", resolve("src"))
       .set("assets", resolve("src/assets"))
   },
-  publicPath: './',
   assetsDir: "static",
   configureWebpack: {
     devtool: 'source-map',
@@ -29,14 +28,14 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '/server': {
+      '/api': {
         target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-          '^/server': ''
+          '^/api': '' // 本地开发时不需要该属性
         }
-      }
+      },
     }
   }
 }

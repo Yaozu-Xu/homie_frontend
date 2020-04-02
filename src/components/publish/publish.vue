@@ -114,7 +114,7 @@ export default {
       callbacks: {
         onImageUpload: async function(files) {
           // create img node
-          const api = "/server/api/publish/file/";
+          const api = "/api/publish/file/";
           const prefix = `img-${files[0]["lastModified"]}`;
           const suffix = /image\/(.*)/.exec(files[0]["type"])[1];
           const filename = `${prefix}.${suffix}`;
@@ -276,6 +276,14 @@ export default {
 
 
 <style lang="scss">
+@import "../../common/css/summernote";
+</style>
+
+<style lang="scss" scoped>
+/deep/ .active{
+  background: #e6e6e6;
+}
+
 .at-container {
   margin-top: 40px !important;
   margin-bottom: 10px !important;
@@ -296,52 +304,5 @@ export default {
     font-size: 16px;
     font-weight: bold;
   }
-}
-
-.note-editor.note-frame {
-  border-color: #e8e4e4fa;
-}
-
-.note-popover {
-  display: none;
-}
-
-.panel-default {
-  .panel-heading {
-    background: #fbfbfb;
-    border-bottom: 1px solid #ddd;
-  }
-}
-
-.btn-default {
-  background: #fff;
-  border-color: #ccc;
-}
-
-.btn-default:hover {
-  color: #333;
-  background-color: #d4d4d4;
-  border-color: #8c8c8c;
-}
-
-.note-btn:after {
-  display: none;
-}
-
-.modal-title {
-  display: none;
-}
-
-.modal-footer {
-  display: none;
-}
-
-pre {
-  display: block;
-  padding: 28px 24px;
-  font-size: 14px;
-  background-color: #fafbfd;
-  border: 1px solid #eaecf0;
-  color: #68747f;
 }
 </style>

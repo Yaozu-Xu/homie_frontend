@@ -26,6 +26,12 @@
 }
 </style>
 
+<style lang="scss" scoped>
+/deep/ .active{
+  background: #e6e6e6;
+}
+</style>
+
 <script>
 import Apis from "@/service/api";
 
@@ -81,7 +87,7 @@ export default {
         callbacks: {
           onImageUpload: async function(files) {
             // create img node
-            const api = "/server/api/publish/file/";
+            const api = "/api/publish/file/";
             const prefix = `img-${files[0]["lastModified"]}`;
             const suffix = /image\/(.*)/.exec(files[0]["type"])[1];
             const filename = `${prefix}.${suffix}`;
