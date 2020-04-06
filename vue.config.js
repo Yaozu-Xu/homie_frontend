@@ -33,7 +33,7 @@ module.exports = {
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-          '^/api': '' // 本地开发时不需要该属性
+          '^/api': ''
         }
       },
     }

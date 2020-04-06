@@ -92,6 +92,22 @@
       width: 100%;
       text-align: center;
     }
+
+    .btn-loading::after {
+      content: "ing...";
+      position: relative;
+      font-weight: bold;
+      animation: loading 2s infinite;
+    }
+
+    @keyframes loading {
+      from {
+        left: 0px;
+      }
+      to {
+        left: 10px;
+      }
+    }
   }
 
   .create-div {
@@ -174,6 +190,8 @@ export default {
         });
         return false;
       }
+      let btn = document.querySelector('.fm-bt')
+      btn.classList.add('btn-loading')
       try {
         const res = await Apis.sendLogin({
           email: this.email,
@@ -201,6 +219,7 @@ export default {
           confirmButtonText: "确认",
           confirmButtonColor: "red"
         });
+        setTimeout(()=>window.location.reload(), 1000)
       }
     }
   }

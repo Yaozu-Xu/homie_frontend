@@ -27,59 +27,69 @@ const routes = [{
 	children: [{
 			path: '',
 			name: 'about',
-			title: "homiepub",
-			component: about
+			component: about,
+			meta: {
+				title: 'homiepub'
+			}
 		},
 		{
 			path: '/login',
 			name: 'login',
-			title: '登陆',
-			component: login
+			component: login,
+			meta: {
+				title: '登陆',
+			}
 		},
 		{
 			path: '/join',
 			name: 'register',
-			title: '注册',
-			component: register
+			component: register,
+			meta: {
+				title: '注册',
+			}
 		},
 		{
 			path: '/index/:user',
 			name: 'index',
-			title: '主页',
-			component: index
+			component: index,
+			meta: {
+				title: '主页',
+			}
 		},
 		{
 			path: '/publish',
 			name: 'publish',
-			title: '发布',
 			component: publish,
 			meta: {
-				requireAuth: true
+				requireAuth: true,
+				title: '发布',
 			}
 		},
 		{
 			path: '/edit/:aid',
 			name: 'edit',
-			title: '编辑',
 			component: edit,
 			meta: {
-				requireAuth: true
+				requireAuth: true,
+				title: '编辑',
 			}
 		},
 		{
 			path: '/admin',
 			name: 'admin',
-			title: '管理',
 			component: admin,
 			meta: {
-				requireAuth: true
+				requireAuth: true,
+				title: '管理',
 			}
 		},
 		{
 			path: '/error',
-			title: '错误～',
 			name: 'error',
-			component: error
+			component: error,
+			meta: {
+				title: '错误～',
+			}
 		},
 		{
 			path: '*',
@@ -95,6 +105,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 	// 路由需要登陆验证
+	document.title = to.meta.title
 	if (to.meta.requireAuth) {
 		// 未登录禁止访问
 		if (!Cookies.get('refresh_token') || !Cookies.get('uid')) {

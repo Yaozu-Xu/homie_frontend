@@ -2,7 +2,7 @@
   <b-container class="login-container">
     <div class="logo-brand ml-auto">
       <router-link to="/">
-        <img src="../../assets/logo.png" style="width:96px; height:96px; border-radius:50%">
+        <img src="../../assets/logo.png" style="width:96px; height:96px; border-radius:50%" />
       </router-link>
     </div>
     <div class="fm-header">
@@ -73,7 +73,7 @@
 
 <script>
 import Apis from "@/service/api";
-import {throttle} from "@/config/utils"
+import { throttle } from "@/config/utils";
 
 export default {
   data() {
@@ -122,8 +122,8 @@ export default {
     };
   },
 
-  created(){
-    this.throttleRegister = throttle(this.sendRegData)
+  created() {
+    this.throttleRegister = throttle(this.sendRegData);
   },
 
   methods: {
@@ -131,6 +131,8 @@ export default {
       if (Object.keys(this.errMsg).length > 0) {
         return false;
       }
+      let btn = document.querySelector('.fm-bt')
+      btn.classList.add('btn-loading')
       try {
         const res = await Apis.register({
           email: this.email,
@@ -154,14 +156,16 @@ export default {
             confirmButtonColor: "red"
           });
         }
+        setTimeout(() => window.location.reload(), 1000);
       } catch (error) {
         swal({
-          text: '服务器异常',
+          text: "服务器异常",
           title: "错误",
           type: "info",
           confirmButtonText: "确认",
           confirmButtonColor: "red"
         });
+        setTimeout(() => window.location.reload(), 1000);
       }
     },
 
@@ -175,7 +179,7 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .form-group {
   font-weight: 500;
 
@@ -223,6 +227,22 @@ export default {
       margin-top: 30px;
       width: 100%;
       text-align: center;
+    }
+
+    .btn-loading::after {
+      content: "ing...";
+      position: relative;
+      font-weight: bold;
+      animation: loading 2s infinite;
+    }
+
+    @keyframes loading {
+      from {
+        left: 0px;
+      }
+      to {
+        left: 10px;
+      }
     }
   }
 }
